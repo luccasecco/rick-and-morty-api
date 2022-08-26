@@ -2,7 +2,7 @@ const baseUrl = 'https://rickandmortyapi.com/api'
 
 const container = document.querySelector('#container')
 const searchContainer = document.createElement('div')
-const input = document.querySelector('#search-input')
+const input = document.querySelector('#charselect')
 const buttonAlive = document.querySelector('#alive-button')
 const buttonDead = document.querySelector('#dead-button')
 const home = document.querySelector('#home')
@@ -10,6 +10,7 @@ const home = document.querySelector('#home')
 let characters = []
 let aliveCharacter = []
 let deadCharacter = []
+let selectedChar = []
 
 async function getCharacter() {
   await fetch(baseUrl + '/character')
@@ -112,8 +113,19 @@ function statusFilterDead() {
   })
 }
 
+function searchCharacter() {
+  let content = input.value
+  characters.filter(char => {
+    if (content === char.name) {
+      selectedChar.push(char)
+      render(selectedChar)
+    }
+  })
+}
+
 buttonAlive.addEventListener('click', statusFilterAlive)
 buttonDead.addEventListener('click', statusFilterDead)
 home.addEventListener('click', getCharacter)
+input.addEventListener('change', searchCharacter)
 
 getCharacter()
